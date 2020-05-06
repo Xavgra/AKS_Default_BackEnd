@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  defaultbackend:
+    image: defautlbackend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    environment:
+      "DEFAULT_PAGE": "OriginalURI" 
