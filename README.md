@@ -40,7 +40,7 @@ defaultbackend_1  | 2020/05/06 14:02:41 Launching server :8080
 
 ### Testear 
 
-Ejecutar una llamada via Postman o curl a http://localhost:8080/index.htm y los headers siguientes:
+Ejecutar una llamada via Postman o curl a http://localhost:80/index.htm y los headers siguientes:
 
 * "X-Original-URI": "pandape.com.br/lskfjsdlfj sdl/lskjdflskdj f/lakshdklsad ",
 * "X-Format": "text/html",
@@ -57,4 +57,14 @@ defaultbackend_1  | 2020/05/06 14:02:41 Configuring server
 defaultbackend_1  | 2020/05/06 14:02:41 Launching server :8080
 defaultbackend_1  | 2020/05/06 14:08:36 couldn't get media type extension. Using html
 defaultbackend_1  | 2020/05/06 14:08:36 serving custom error response for code 503 and format .html from file roofts/www/pandape/503.html
+```
+
+### Instalación en azure 
+
+```system
+az login
+az account set --subscription Infojobs-PRE
+az acr login --name empbra
+docker tag defautlbackend empbra.azurecr.io/customingress:20200506.1.master
+docker push empbra.azurecr.io/customingress:20200506.1.master
 ```
