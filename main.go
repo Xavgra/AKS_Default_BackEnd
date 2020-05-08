@@ -60,13 +60,13 @@ const (
 	ErrFilesPathVar = "ERROR_FILES_PATH"
 
 	// Dominio panda pe
-	PandaPeDomain = "pandape.com.br"
+	PandaPeDomain = "ats"
 
 	//Path
 	PandaPePath = "/pandape"
 
 	// Dominio InfoJobs
-	InfoJobsDomain = "infojobs.com.br"
+	InfoJobsDomain = ""
 
 	//Path
 	InfoJobsPath = "/infojobs"
@@ -102,23 +102,12 @@ func main() {
 
 func pathByDomain(uri string) string {
 
+	log.Printf("Requested URL: %s", uri)
+
 	if strings.Contains(uri, PandaPeDomain) {
 		return PandaPePath
 	}
 	return InfoJobsPath
-}
-func pathAplication(r *http.Request) string {
-
-	completePath := ""
-
-	if os.Getenv(DEFAULT_PAGE) == ServiceNameMode {
-		completePath = r.Header.Get(ServiceName) + "/"
-	}
-
-	if os.Getenv(DEFAULT_PAGE) == DomainMode {
-		completePath = pathByDomain(r.Header.Get(OriginalURI))
-	}
-	return completePath
 }
 func filePath(r *http.Request) (int, string, string, string) {
 
@@ -155,7 +144,7 @@ func filePath(r *http.Request) (int, string, string, string) {
 		ext = "." + ext
 	}
 
-	return code, ext, fmt.Sprintf("%v%v/%v%v", errFilesPath, pathAplication(r), code, ext), ext
+	return code, ext, fmt.Sprintf("%v%v/%v%v", errFilesPath, pathByDomain(r.Header.Get(ServiceName)), code, ext), ext
 }
 func contentErrorMessage(file string, code int, ext string) (*os.File, error) {
 
