@@ -68,3 +68,6 @@ az acr login --name empbra
 docker tag defautlbackend empbra.azurecr.io/customingress:20200506.1.master
 docker push empbra.azurecr.io/customingress:20200506.1.master
 ```
+
+
+export GO111MODULE=on
