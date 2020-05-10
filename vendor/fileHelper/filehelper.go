@@ -25,8 +25,8 @@ const (
 	// CodeHeader name of the header used as source of the HTTP status code to return
 	CodeHeader = "X-Code"
 
-		// ServiceName name of the header that contains the matched Service in the Ingress
-		ServiceName = "X-Service-Name"
+	// ServiceName name of the header that contains the matched Service in the Ingress
+	ServiceName = "X-Service-Name"
 )
 
 func pathByDomain(uri string) string {
@@ -77,7 +77,7 @@ func FilePath(r *http.Request) (int, string, string, string) {
 	return code, ext, fmt.Sprintf("%v%v/%v%v", errFilesPath, pathByDomain(r.Header.Get(ServiceName)), code, ext), ext
 }
 
-func contentErrorMessage(file string, code int, ext string) (string ) {
+func AlternativeErrorMessage(file string, code int, ext string) (string ) {
 	scode := strconv.Itoa(code)
 	file = fmt.Sprintf("%v%cxx%v", strings.ReplaceAll(file, scode+ext, ""), scode[0], ext)
 	return file

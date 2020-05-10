@@ -42,8 +42,6 @@ const (
 	// RequestId is a unique ID that identifies the request - same as for backend service
 	RequestId = "X-Request-ID"
 
-
-
 	// Dominio panda pe
 	PandaPeDomain = "ats"
 
@@ -59,15 +57,11 @@ const (
 	// VAriable
 	DEFAULT_PAGE = "DEFAULT_PAGE"
 
-
-
 	//Env varaible
 	DomainMode = "OriginalURI"
 
 	// Path for error files
 	BasePath = "roofts/www"
-
-	
 )
 
 var cache *ContentCache
@@ -77,6 +71,7 @@ func main() {
 
 	cache = new(ContentCache)
 	err := cache.AddItem("ke1", "roofts/www/pandape/503.html")
+
 	if err != nil {
 		log.Printf("erro configurando cache")
 	}
@@ -109,42 +104,33 @@ func showRequestVariables(w http.ResponseWriter, r *http.Request) {
 func errorHandler() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
-
 		showRequestVariables(w, r)
 
-		code, format, file, ext := filePath(r)
 		w.Header().Set(ContentType, format)
 		w.WriteHeader(code)
 
+		code, format, file, ext := filePath(r)
 		fileContent, err := cache.GetItemReader(file)
 		if err != nil {
-
 			log.Printf("unexpected error opening file: %v", err)
-			http.NotFound(w, r)
-			return
+
+			genericErrorFile := AlternativeErrorMessage(file, code, ext)
+			err := cache.AddItem(genericErrorFile, genericErrorFile)
+			ileContent, err = cache.GetItemReader(file)
+			if err != nil {
+				log.Printf("unexpected error opening file: %v", err)
+				http.NotFound(w, r)
+				return
+			}
 		}
+		log.Printf("serving custom error response for code %v and format %v from file %v", code, format, file)
 		io.Copy(w, fileContent)
 
 		duration := time.Now().Sub(start).Seconds()
-
 		proto := strconv.Itoa(r.ProtoMajor)
 		proto = fmt.Sprintf("%s.%s", proto, strconv.Itoa(r.ProtoMinor))
-
 		requestCount.WithLabelValues(proto).Inc()
 		requestDuration.WithLabelValues(proto).Observe(duration)
-
-		f, err := contentErrorMessage(file, code, ext)
-
-		if err != nil {
-			log.Printf("unexpected error opening file: %v", err)
-			http.NotFound(w, r)
-			return
-		}
-
-		defer f.Close()
-		log.Printf("serving custom error response for code %v and format %v from file %v", code, format, file)
-		//io.Copy(w, f)
-
 	}
 
 }
