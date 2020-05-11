@@ -31,7 +31,7 @@ func (service *Service) AddService(serviceName string, pathErrorFiles string) {
 
 func (service *Service) pathByService(serviceName string) string {
 
-	log.Printf("Requested serviceName: %s", serviceName)
+	log.Printf("Generating path for serviceName: %s", serviceName)
 
 	for i := range service.ServiceCollenction {
 		if strings.Contains(service.ServiceCollenction[i].ServiceName, serviceName) {

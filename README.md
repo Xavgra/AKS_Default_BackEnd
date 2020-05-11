@@ -65,7 +65,7 @@ defaultbackend_1  | 2020/05/06 14:08:36 serving custom error response for code 5
 az login
 az account set --subscription Infojobs-PRE
 az acr login --name empbra
-docker tag defautlbackend empbra.azurecr.io/customingress:20200506.1.master
+docker tag defautlbackend:latest empbra.azurecr.io/customingress:20200506.1.master
 docker push empbra.azurecr.io/customingress:20200506.1.master
 ```
 

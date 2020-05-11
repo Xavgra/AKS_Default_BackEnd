@@ -34,6 +34,8 @@ func (cache *ContentCache) AddItem(keyName string, filePath string) error {
 
 	itemToCache.value = content
 	cache.cacheData = append(cache.cacheData, *itemToCache)
+
+	log.Printf("Added %s to cache", keyName)
 	return nil
 }
 
