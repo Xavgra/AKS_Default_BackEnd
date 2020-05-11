@@ -2,7 +2,7 @@
 
 ### Descripción y funcionamiento
 
-Aplicación destinada a retornar páginas de error en función de las cabeceras enviadas en una petición desde ingres de aKS cuando un servicon falla o no existe.
+Aplicación destinada a retornar páginas de error en función de las cabeceras enviadas en una petición desde ingres de K8s cuando un servicon falla o no existe.
 
 Cabeceras disponible:
 
@@ -16,14 +16,6 @@ Cabeceras disponible:
 * ServicePort name of the header that contains the matched Service port in the Ingress, ServicePort = "X-Service-Port"
 * RequestId is a unique ID that identifies the request - same as for backend service, RequestId = "X-Request-ID"
 
-Además de las cabeceras existen dos variables de entorno:
-
-* DEFAULT_PAGE Sireve para indicar si queremos que la página de error se personalice según el dominio de la url que ha fallado o el servicio/aplicación kubernetes que falle.
-	Posibles valores:
-
-	* Vacío: no contemplará ninguna variable y devoloverá los mensajes por defecto
-	* ServiceName : Devoleverá la página de error según el servicio/aplicación kubernetes que falle
-	* OriginalUri : Devolverá la página de error según el dominio pandape.com.br o infojobs.com.br, el valor por defecto es infojobs.com.br 
 
 ### Docker
 
@@ -63,10 +55,10 @@ defaultbackend_1  | 2020/05/06 14:08:36 serving custom error response for code 5
 
 ```system
 az login
-az account set --subscription Infojobs-PRE
-az acr login --name empbra
-docker tag defautlbackend:latest empbra.azurecr.io/customingress:20200506.1.master
-docker push empbra.azurecr.io/customingress:20200506.1.master
+az account set --subscription YYY
+az acr login --name XXX
+docker tag defautlbackend:latest empbra.azurecr.io/ZZZZZZZ:20200506.1.master
+docker push empbra.azurecr.io/ZZZZZZZ:20200506.1.master
 ```
 
 
